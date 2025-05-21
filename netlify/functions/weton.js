@@ -13,18 +13,19 @@ exports.handler = async (event) => {
   const pasarans = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
   const neptuHari = { Minggu: 5, Senin: 4, Selasa: 3, Rabu: 7, Kamis: 8, Jumat: 6, Sabtu: 9 };
   const neptuPasaran = { Legi: 5, Pahing: 9, Pon: 7, Wage: 4, Kliwon: 8 };
-  const wukuList = ["Sinta","Landep","Wukir","Kurantil","Tolu","Gumbreg","Warigalit","Warigagung","Julungwangi","Sungsang",
-                    "Galungan","Kuningan","Langkir","Mandasiya","Julungpujud","Pahang","Kuruwelut","Marakeh","Tambir","Medangkungan",
-                    "Maktal","Wuye","Manahil","Prangbakat","Bala","Wugu","Wayang","Kelawu","Dukut","Watugunung"];
+  const wukuList = [
+    "Sinta","Landep","Wukir","Kurantil","Tolu","Gumbreg","Warigalit","Warigagung","Julungwangi","Sungsang",
+    "Galungan","Kuningan","Langkir","Mandasiya","Julungpujud","Pahang","Kuruwelut","Marakeh","Tambir","Medangkungan",
+    "Maktal","Wuye","Manahil","Prangbakat","Bala","Wugu","Wayang","Kelawu","Dukut","Watugunung"
+  ];
 
   const tgl = new Date(birthdate);
   const hari = days[tgl.getDay()];
-  const base = new Date('1900-01-01');
-  const selisih = Math.floor((tgl - base) / (1000 * 60 * 60 * 24));
-  const pasaran = pasarans[(selisih % 5 + 5) % 5];
-  const wuku = wukuList[Math.floor(((selisih % 210) + 210) % 210 / 7)];
+  const patokan = new Date('1900-01-01');
+  const selisihHari = Math.floor((tgl - patokan) / (1000 * 60 * 60 * 24));
+  const pasaran = pasarans[(selisihHari % 5 + 5) % 5];
+  const wuku = wukuList[Math.floor(((selisihHari % 210) + 210) % 210 / 7)];
   const neptu = neptuHari[hari] + neptuPasaran[pasaran];
-
   const tanggalMasehi = tgl.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const prompt = `Berdasarkan weton kelahiran seseorang:

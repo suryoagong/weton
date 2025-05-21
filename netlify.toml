@@ -1,9 +1,3 @@
-
 [build]
   functions = "netlify/functions"
   publish = "."
-
-[[redirects]]
-  from = "/api/weton"
-  to = "/.netlify/functions/weton"
-  status = 200
