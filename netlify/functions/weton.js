@@ -44,7 +44,16 @@ exports.handler = async (event) => {
   const taunIdx = Math.floor(daysBetween / 354.367) % 8;
   const tahunJawa = 1878 + Math.floor(daysBetween / 354.367); // simulasi base 1945
   const tanggalJawa = `${jawaTgl} ${sasiList[sasiIdx]} ${tahunJawa} ${tahunList[taunIdx]}`;
-  const tanggalHijriah = hijriData?.data?.hijri?.date ? hijriData.data.hijri.date.replace('/', ' ') : 'Gagal konversi Hijriah';
+  
+const hijriRaw = hijriData?.data?.hijri?.date || '';
+const [hDay, hMonth, hYear] = hijriRaw.split('-');
+const hijriMonthName = {
+  "01": "Muharram", "02": "Safar", "03": "Rabiul Awal", "04": "Rabiul Akhir",
+  "05": "Jumadil Awal", "06": "Jumadil Akhir", "07": "Rajab", "08": "Syaban",
+  "09": "Ramadhan", "10": "Syawal", "11": "Zulkaidah", "12": "Zulhijjah"
+}[hMonth] || hMonth;
+const tanggalHijriah = `${hDay} ${hijriMonthName} ${hYear}`;
+
 
   const prompt = `Berdasarkan weton kelahiran seseorang:
 Hari dan Pasaran: ${hari} ${pasaran}
