@@ -32,6 +32,19 @@ exports.handler = async (event) => {
   const kamarokam = kamarokamHari[hari] + kamarokamPasaran[pasaran];
 
   const tanggalMasehi = tgl.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  const hijriRes = await fetch(`https://api.aladhan.com/v1/gToH?date=${tgl.getDate()}-${tgl.getMonth() + 1}-${tgl.getFullYear()}`);
+  const hijriData = await hijriRes.json();
+  // Tanggal Jawa estimasi berdasar epoch tetap (simulasi)
+  const jawaEpoch = new Date('1945-08-17');
+  const daysBetween = Math.floor((tgl - jawaEpoch) / (1000 * 60 * 60 * 24));
+  const sasiList = ["Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadil Awal", "Jumadil Akhir", "Rejeb", "Ruwah", "Pasa", "Sawal", "Dulkaidah", "Besar"];
+  const tahunList = ["Alip", "Ehe", "Jimawal", "Je", "Dal", "Be", "Wawu", "Jimakir"];
+  const jawaTgl = (daysBetween % 30 + 1);
+  const sasiIdx = Math.floor(daysBetween / 30) % 12;
+  const taunIdx = Math.floor(daysBetween / 354.367) % 8;
+  const tahunJawa = 1878 + Math.floor(daysBetween / 354.367); // simulasi base 1945
+  const tanggalJawa = `${jawaTgl} ${sasiList[sasiIdx]} ${tahunJawa} ${tahunList[taunIdx]}`;
+  const tanggalHijriah = hijriData?.data?.hijri?.date ? hijriData.data.hijri.date.replace('/', ' ') : 'Gagal konversi Hijriah';
 
   const prompt = `Berdasarkan weton kelahiran seseorang:
 Hari dan Pasaran: ${hari} ${pasaran}
@@ -66,6 +79,8 @@ Tuliskan ramalan Weton Jawa secara naratif dan sopan, langsung dalam HTML:
 <div class='blok'><h3>📅 Data Kelahiran</h3>
 <p><strong>Nama:</strong> ${name}</p>
 <p><strong>Tanggal Masehi:</strong> ${tanggalMasehi}</p>
+<p><strong>Tanggal Hijriah:</strong> ${tanggalHijriah}</p>
+<p><strong>Tanggal Jawa:</strong> ${tanggalJawa}</p>
 <p><strong>Hari & Pasaran:</strong> ${hari} ${pasaran}</p>
 <p><strong>Wuku:</strong> ${wuku}</p>
 <p><strong>Neptu:</strong> ${neptu}</p>
