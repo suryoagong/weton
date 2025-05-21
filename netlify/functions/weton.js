@@ -92,7 +92,23 @@ Tuliskan ramalan Weton Jawa secara naratif dan sopan, langsung dalam HTML:
     });
 
     const data = await res.json();
-    const aiContent = data?.choices?.[0]?.message?.content || '<p>❌ Gagal mendapatkan ramalan dari AI.</p>';
+    
+    let aiContent = '';
+    if (data?.choices?.[0]?.message?.content) {
+      aiContent = data.choices[0].message.content;
+    } else {
+      // Fallback ke Gemini jika Groq gagal
+      const geminiRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-pro:generateContent?key=AIzaSyAGSNcqLSl3IKOJA5Ea5Z4iDA8o2ethYcA', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      });
+      const geminiData = await geminiRes.json();
+      aiContent = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || '<p>❌ Gagal memuat ramalan dari kedua AI.</p>';
+    }
+    
 
     const html = `
 <div class='blok'><h3>📅 Data Kelahiran</h3>
