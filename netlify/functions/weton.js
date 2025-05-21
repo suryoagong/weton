@@ -22,10 +22,20 @@ exports.handler = async (event) => {
                     "Prangbakat", "Bala", "Wugu", "Wayang", "Kelawu", "Dukut", "Watugunung"];
 
   const tgl = new Date(birthdate + "T00:00:00");
-  const hari = days[tgl.getDay()];
+  
+  const tgl = new Date(birthdate + "T00:00:00");
+  const baseRef = new Date("1944-06-08T00:00:00"); // Kamis Legi
+  const hariList = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const pasaranList = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
+  const daysBetween = Math.floor((tgl - baseRef) / (1000 * 60 * 60 * 24));
+  const hariIndex = (4 + daysBetween % 7 + 7) % 7;
+  const pasaranIndex = (0 + daysBetween % 5 + 5) % 5;
+  const hari = hariList[hariIndex];
+  const pasaran = pasaranList[pasaranIndex];
+
   const base = new Date('1900-01-01T00:00:00');
   const selisih = Math.floor((tgl - base) / (1000 * 60 * 60 * 24));
-  const pasaran = pasarans[(selisih % 5 + 5) % 5];
+  // pasaran dihitung dari patokan otentik
   const wuku = wukuList[Math.floor(((selisih % 210) + 210) % 210 / 7)];
   const neptu = neptuHari[hari] + neptuPasaran[pasaran];
   const pancasuda = neptuHari[hari] + neptuPasaran[pasaran];
