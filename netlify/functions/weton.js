@@ -21,9 +21,9 @@ exports.handler = async (event) => {
                     "Pahang", "Kuruwelut", "Marakeh", "Tambir", "Medangkungan", "Maktal", "Wuye", "Manahil",
                     "Prangbakat", "Bala", "Wugu", "Wayang", "Kelawu", "Dukut", "Watugunung"];
 
-  const tgl = new Date(birthdate + "T00:00:00");
+  let tgl = new Date(birthdate + "T00:00:00");
   
-  const tgl = new Date(birthdate + "T00:00:00");
+  let tgl = new Date(birthdate + "T00:00:00");
   const baseRef = new Date("1944-06-08T00:00:00"); // Kamis Legi
   const hariList = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
   const pasaranList = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
