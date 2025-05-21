@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cek Weton Jawa</title>
+  <style>
+    body { font-family: sans-serif; background: #f9f9f9; padding: 2rem; }
+    h1 { color: #333; }
+    label, input, button { display: block; width: 100%; margin: 1rem 0; font-size: 1rem; }
+    button { background: #007bff; color: white; padding: 0.5rem; border: none; cursor: pointer; }
+    .hasil { background: white; padding: 1rem; border-radius: 5px; margin-top: 2rem; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <h1>🔮 Cek Ramalan Weton Jawa</h1>
+  <form id="wetonForm">
+    <label for="name">Nama:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="birthdate">Tanggal Lahir:</label>
+    <input type="date" id="birthdate" name="birthdate" required />
+
+    <button type="submit">Cek Weton</button>
+  </form>
+
+  <div class="hasil" id="result"></div>
+
+  <script>
+    const form = document.getElementById('wetonForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultDiv.innerHTML = "⏳ Memproses...";
+      const name = document.getElementById('name').value;
+      const birthdate = document.getElementById('birthdate').value;
+
+      try {
+        const res = await fetch('/api/weton', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, birthdate })
+        });
+
+        const data = await res.json();
+        resultDiv.innerHTML = data.message || "❌ Tidak ada hasil";
+      } catch (err) {
+        resultDiv.innerHTML = "❌ Gagal mengambil data: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
