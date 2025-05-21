@@ -46,10 +46,7 @@
       <form id="wetonForm">
         <div class="form-group">
           <input type="text" id="name" name="name" placeholder="Nama Lengkap" required>
-          <select id="day" name="day" required>
-            <option value="">Tanggal</option>
-            ${[...Array(31)].map((_, i) => `<option value="${String(i + 1).padStart(2, '0')}">${i + 1}</option>`).join('')}
-          </select>
+          <input type="number" id="day" name="day" placeholder="Tanggal (1–31)" min="1" max="31" required>
         </div>
         <div class="form-group">
           <select id="month" name="month" required>
