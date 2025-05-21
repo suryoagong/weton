@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cek Weton & Ramalan Jawa</title>
+  <title>Primbon Weton Jawa</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -77,11 +77,9 @@
   </main>
   <script>
     document.body.classList.remove('light');
-
     function toggleMode() {
       document.body.classList.toggle('light');
     }
-
     document.getElementById('wetonForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const name = document.getElementById('name').value;
@@ -89,14 +87,12 @@
       const month = document.getElementById('month').value;
       const year = document.getElementById('year').value;
       const birthdate = `${year}-${month}-${day}`;
-
       const resultBox = document.getElementById('resultBox');
       const result = document.getElementById('result');
       result.innerHTML = '<p>⏳ Sedang memproses hasil ramalan...</p>';
       resultBox.style.display = 'block';
-
       try {
-        const response = await fetch('/api/weton', {
+        const response = await fetch('/.netlify/functions/weton', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ name, birthdate })
